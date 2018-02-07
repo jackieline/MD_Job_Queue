@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const Promise = require('bluebird');
 const db = require('./database.js');
 
 const app = express();
@@ -17,9 +16,9 @@ app.post('/addToQueue', (req, res) => {
   db.addJob(req.body.url)
     .then((success) => {
     // add the url to the queue with unique id as a key
-      jobQueue[success._id] = req.body.url;
+      jobQueue[success._id] = req.body.url; // eslint-disable-line
       // send the user the unique key
-      res.send(JSON.stringify(success._id));
+      res.send(JSON.stringify(success._id)); // eslint-disable-line
     })
     .catch(err => res.send(err));
 });
@@ -32,18 +31,18 @@ app.get('/jobStatus?:jobId', (req, res) => {
       // since jobid exists, grab the HTML
       db.getSite(job[0].url)
         // send the HTML to the user
-        .then((siteData) => { res.send(siteData.html); })
+        .then((siteData) => { res.send(siteData[0].html); })
         // if HTML isn't in db yet, it's still being worked on
-        .catch(res.send('Job is still in progress'));
+        .catch(err => res.send('Job is still in progress')); // eslint-disable-line
     })
   // if jobId isn't in the db then the user entered invalid jobId
-    .catch(err => res.send('Job does not exist'));
+    .catch(err => res.send('Job does not exist')); // eslint-disable-line
 });
 
 // worker to perform work on jobQueue
 setInterval(() => {
   // for each job in the jobQueue
-  for (const job of jobQueue.keys) {
+  for (const job in jobQueue) {  // eslint-disable-line
     // check if each job(url) is already in the db
     db.getSite(jobQueue[job])
       .then((siteFound) => {
@@ -58,11 +57,11 @@ setInterval(() => {
             // save url and html to db
             .then(data => db.addSite(jobQueue[job], data.data))
             // after the save is done, delete from queue
-            .then(addedSite => delete jobQueue[job])
+            .then(addedSite => delete jobQueue[job]) // eslint-disable-line
             .catch(err => console.error(err));
         }
       });
   }
-}, 3000);
+}, 1000);
 
 app.listen(8080, () => console.log('express node listening on port 8080'));
