@@ -1,0 +1,32 @@
+{
+  "name": "md_job_queue",
+  "version": "1.0.0",
+  "description": "build a queue for workers to fetch data from URLs and store to the database",
+  "main": "express-server.js",
+  "scripts": {
+    "test": "''"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackieline/MD_Job_Queue.git"
+  },
+  "author": "jacqueline leung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackieline/MD_Job_Queue/issues"
+  },
+  "homepage": "https://github.com/jackieline/MD_Job_Queue#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "eslint": "^4.17.0",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.3",
+    "nodemon": "^1.14.12"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  }
+}
